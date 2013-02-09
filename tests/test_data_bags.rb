@@ -23,13 +23,14 @@ require "chef"
 # mocking chef such that it thinks it's running as chef-solo and knows about
 # the location of the data_bag
 Chef::Config[:solo] = true
-Chef::Config[:data_bag_path] = "tests/data/data_bags"
+Chef::Config[:data_bag_path] = File.expand_path(File.dirname(__FILE__), "data/data_bags")
 
 def data_bag_item(bag, item)
   # wrapper around creating a new Recipe instance and calling data_bag on it
   node = Chef::Node.new()
   cookbooks = Chef::CookbookCollection.new()
-  run_context = Chef::RunContext.new(node, cookbooks)
+  events = Chef::EventDispatch::Dispatcher.new(nil)
+  run_context = Chef::RunContext.new(node, cookbooks, events)
   return Chef::Recipe.new("test_cookbook", "test_recipe", run_context).data_bag_item(bag, item)
 end
 

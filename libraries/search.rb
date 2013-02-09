@@ -36,8 +36,8 @@ if Chef::Config[:solo]
   require_relative 'parser.rb'
 
   class Chef
-    module Mixin
-      module Language
+    module DSL
+      module DataQuery
 
         # Overwrite the search method of recipes to operate locally by using
         # data found in data_bags.
@@ -120,7 +120,7 @@ if Chef::Config[:solo]
 
   class QuerySearchHelper
     class << self
-      include Chef::Mixin::Language
+      include Chef::DSL::DataQuery
     end
   end
 

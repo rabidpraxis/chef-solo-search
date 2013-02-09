@@ -18,7 +18,7 @@
 #
 
 require 'treetop'
-require 'chef/solr_query/query_transform'
+require File.expand_path('lucene_nodes.rb', File.dirname(__FILE__))
 
 # mock QueryTransform such that we can access the location of the lucene grammar
 class Chef
@@ -189,7 +189,7 @@ end
 
 class Query
   # initialize the parser by using the grammar shipped with chef
-  @@grammar = File.join(Chef::SolrQuery::QueryTransform.base_path, "lucene.treetop")
+  @@grammar = File.join(File.expand_path(File.dirname(__FILE__)), "lucene.treetop")
   Treetop.load(@@grammar)
   @@parser = LuceneParser.new
 
